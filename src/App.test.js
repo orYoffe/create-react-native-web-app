@@ -1,9 +1,17 @@
+import { Platform } from 'react-native';
 import React from 'react';
-import ReactDOM from 'react-dom';
+// Note: test renderer must be required after react-native.
+import renderer from 'react-test-renderer';
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe('App', () => {
+  it('renders without errors', () => {
+    const tree = renderer.create(<App/>);
+    expect(tree.toJSON()).toBeTruthy();
+  });
+
+  it('example snapshot test on - ' + Platform.OS, () => {
+    const tree = renderer.create(<App/>);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
 });
