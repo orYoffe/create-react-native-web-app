@@ -5,20 +5,16 @@ const path = require('path');
 const execSync = require('child_process').execSync;
 const packageJson = require('./package.json');
 
-const currentNodeVersion = process.versions.node;
-const semver = currentNodeVersion.split('.');
-const major = semver[0];
+const nodeVersion = process.versions.node;
+const nodeVersionSplitted = nodeVersion.split('.');
+const nodeMajorVersion = nodeVersionSplitted[0];
 
-if (major < 4) {
-  console.error(
-    chalk.red(
-      'You are running Node ' +
-        currentNodeVersion +
-        '.\n' +
-        'Create React App requires Node 4 or higher. \n' +
-        'Please update your version of Node.'
-    )
-  );
+if (nodeMajorVersion < 8) {
+  console.error(chalk.red(`
+      You are running Node ${nodeVersion}
+      Create React Native Web App requires Node 8 or higher.
+      Please update your version of Node.
+  `));
   process.exit(1);
 }
 
