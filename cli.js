@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const chalk = require('chalk');
 const commander = require('commander');
 const fs = require('fs-extra');
