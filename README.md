@@ -1,6 +1,6 @@
 # React Native Web CLI
 ### create-react-native-web-app
-### A simple CLI tool to start your React Native Web project to develop same app for IOS Android and Web.
+### A simple CLI tool to start your React Native Web project to develop same app for IOS Android and Web. Constructed from create-react-app and create-react-native-app
 
 <p align="center" >
 <img width="300"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/template/src/logo.png">
@@ -39,7 +39,7 @@ $ npm run android
 - Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
 
 <p align="center" >
-<img width="300"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/cli_preview.png">
+<img width="1000"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/cli_preview.png">
 </p>
 
 ## Folder structure
@@ -154,3 +154,5 @@ $ open ./android/app/build/outputs/apk
 - [React Native for Web (react-native-web)](https://github.com/necolas/react-native-web)
 - [React](https://reactjs.org/)
 - [React Native](http://facebook.github.io/react-native/)
+- [Create React App](https://github.com/facebook/create-react-app)
+- [Create React Native App](https://github.com/react-community/create-react-native-app)
