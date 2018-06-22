@@ -38,6 +38,10 @@ $ npm run android
 
 - Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
 
+<p align="center" >
+<img width="300"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/cli_preview.png">
+</p>
+
 ## Folder structure
 ```
 myApp
