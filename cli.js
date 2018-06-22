@@ -42,7 +42,6 @@ const program = new commander.Command(packageJson.name)
   })
   .parse(process.argv);
 
-
 let isYarnAvailable;
 try {
   execSync('yarnpkg --version', { stdio: 'ignore' });
@@ -50,7 +49,6 @@ try {
 } catch (e) {
   isYarnAvailable = false;
 }
-
 
 if (appName) {
   printCyan(`⏳ Creating React Native Web App by the name of ${appName} ...`);

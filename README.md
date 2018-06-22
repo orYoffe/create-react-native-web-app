@@ -24,13 +24,7 @@ $ create-react-native-web-app myApp
 # cd into your <project-directory>
 $ cd myApp
 
-```
-
-- Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
-
-## Running development
-
-```sh
+# Run Web/Ios/Android development
 # Web
 $ npm run web
 
@@ -39,6 +33,53 @@ $ npm run ios
 
 # Android (connected device)
 $ npm run android
+
+```
+
+- Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
+
+## Folder structure
+```
+myApp
+├── node_modules
+├── package.json
+├── index.js
+├── .watchmanconfig
+├── .flowconfig
+├── app.json
+├── .gitignore
+├── android (When opening with Android studio, open this folder)
+│   └── android project files
+├── config
+│   ├── jest
+│   │    │── initTest.js
+│   │    │── native.jest.config.js
+│   │    │── web.jest.config.js
+│   │    └── jest transform files
+│   ├── env.js
+│   ├── paths.js
+│   ├── polyfills.js
+│   ├── webpack.config.dev.js
+│   ├── webpack.config.prod.js
+│   └── webpackDevServer.config.js
+├── ios (When opening with Xcode, open this folder)
+│   └── ios project files
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── scripts
+│   ├── build.js
+│   ├── start.js
+│   ├── switchSnapshots.js
+│   └── test.js
+└── src
+    ├── App.js
+    ├── App.test.js
+    ├── index.css # global
+    ├── index.js
+    ├── logo.png
+    └── registerServiceWorker.js
 ```
 
 ## Testing

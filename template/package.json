@@ -10,10 +10,10 @@
     "ios": "react-native run-ios",
     "start-clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm start -- --reset-cache",
     "test": "npm run test:web && npm run test:native",
-    "test:web-watch": "node scripts/test.js --env=jsdom --watch  --config \"./config/jest/web.jest.config.js\"",
+    "test:web-watch": "node scripts/test.js --env=jsdom --watchAll  --config \"./config/jest/web.jest.config.js\"",
     "test:web": "node scripts/test.js --env=jsdom --config \"./config/jest/web.jest.config.js\"",
     "test:native": "node scripts/test.js --n --config \"./config/jest/native.jest.config.js\"",
-    "test:native-watch": "node scripts/test.js --n --watch --config \"./config/jest/native.jest.config.js\"",
+    "test:native-watch": "node scripts/test.js --n --watchAll --config \"./config/jest/native.jest.config.js\"",
     "coverage": "node scripts/test.js --env=jsdom --coverage --config \"./config/jest/web.jest.config.js\"",
     "coverage:native": "node scripts/test.js --n --config \"./config/jest/native.jest.config.js\" --coverage"
   },
