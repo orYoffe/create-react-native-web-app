@@ -52,6 +52,7 @@ $ npm run android
 </p>
 
 ## Folder structure
+[Example app](https://github.com/VISI-ONE/create-react-native-web-example)
 ```
 myApp
 ├── node_modules
@@ -155,8 +156,7 @@ $ open ./android/app/build/outputs/apk
 
 [React native docs for IOS](http://facebook.github.io/react-native/releases/0.49/docs/running-on-device.html#building-your-app-for-production)
 
-
-# Contributors
+## Contributors
 - Or Yoffe https://github.com/orYoffe
 
 ## Resources
