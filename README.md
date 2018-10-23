@@ -156,8 +156,28 @@ $ open ./android/app/build/outputs/apk
 
 [React native docs for IOS](http://facebook.github.io/react-native/releases/0.49/docs/running-on-device.html#building-your-app-for-production)
 
+## Troubleshooting
+If you got `Execution failed for task ':app:compileDebugAidl'` when running `yarn android`, try to update Android Gradle plugin to version 3.1.1 and Gradle to version 4.4.
+
+Here is how to do that:
+1. Open the project in **Android Studio**
+1. Click `Update`
+
+If you got `FAILURE: Build failed with an exception.`, examine the warnings:
+
+1. WARNING: `The specified Android SDK Build Tools version (23.0.1) is ignored, as it is below the minimum supported version (27.0.3) for Android Gradle Plugin 3.1.1.`
+<br />Solution: Update Build Tools
+
+1. WARNING: `Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.`
+<br />Solution: Change `compile` to `implementation`
+
+See issue [#7](https://github.com/VISI-ONE/create-react-native-web-app/issues/7#issuecomment-432263368) for your references.
+
 ## Contributors
-- Or Yoffe https://github.com/orYoffe
+||:octocat:|
+|-|-|
+|Or Yoffe|https://github.com/orYoffe|
+|Havit C. Rovik|https://github.com/haruelrovix|
 
 ## Resources
 - [React Native for Web (react-native-web)](https://github.com/necolas/react-native-web)
