@@ -1,10 +1,7 @@
 'use strict';
 
-const switchSnapshots = require('./switchSnapshots');
-
 // Do this as the first thing so that any code reading it knows the right env.
-const isNative = process.argv.includes('--n');
-process.env.BABEL_ENV = isNative ? 'test' : 'test-web';
+process.env.BABEL_ENV = 'test';
 process.env.NODE_ENV = 'test';
 process.env.PUBLIC_URL = '';
 
@@ -14,15 +11,43 @@ process.env.PUBLIC_URL = '';
 process.on('unhandledRejection', err => {
   throw err;
 });
-console.log('*** Running test for ' + (isNative ? 'native' : 'web') + '...');
 
 // Ensure environment variables are read.
 require('../config/env');
 
+
 const jest = require('jest');
+const execSync = require('child_process').execSync;
+let argv = process.argv.slice(2);
 
-const argv = isNative ? process.argv.slice(3) : process.argv.slice(2);
+function isInGitRepository() {
+  try {
+    execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
-switchSnapshots(isNative);
+function isInMercurialRepository() {
+  try {
+    execSync('hg --cwd . root', { stdio: 'ignore' });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Watch unless on CI, in coverage mode, or explicitly running all tests
+if (
+  !process.env.CI &&
+  argv.indexOf('--coverage') === -1 &&
+  argv.indexOf('--watchAll') === -1
+) {
+  // https://github.com/facebook/create-react-app/issues/5210
+  const hasSourceControl = isInGitRepository() || isInMercurialRepository();
+  argv.push(hasSourceControl ? '--watch' : '--watchAll');
+}
+
 
 jest.run(argv);
