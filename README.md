@@ -52,7 +52,6 @@ $ npm run android
 </p>
 
 ## Folder structure
-[Example app](https://github.com/VISI-ONE/create-react-native-web-example)
 ```
 myApp
 ├── node_modules
@@ -95,6 +94,8 @@ myApp
     ├── logo.png
     └── registerServiceWorker.js
 ```
+
+[Example app built with this CLI](https://github.com/VISI-ONE/create-react-native-web-example)
 
 ## Testing
 
@@ -157,6 +158,8 @@ $ open ./android/app/build/outputs/apk
 [React native docs for IOS](http://facebook.github.io/react-native/releases/0.49/docs/running-on-device.html#building-your-app-for-production)
 
 ## Troubleshooting
+Issues with Xcode 10 (newest version) - https://github.com/facebook/react-native/issues/19573
+
 If you got `Execution failed for task ':app:compileDebugAidl'` when running `yarn android`, try to update Android Gradle plugin to version 3.1.1 and Gradle to version 4.4.
 
 Here is how to do that:
