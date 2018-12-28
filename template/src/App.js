@@ -81,4 +81,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+let hotWrapper = () => () => App;
+if (Platform.OS === 'web') {
+  const { hot } = require('react-hot-loader');
+  hotWrapper = hot;
+}
+export default hotWrapper(module)(App);
