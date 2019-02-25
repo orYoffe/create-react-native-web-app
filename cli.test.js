@@ -55,7 +55,7 @@ describe('cli runs properly', () => {
 
     expect(execSync.mock.calls).toEqual([
       ['yarnpkg --version', { stdio: 'ignore' }],
-      ['cd myFakeName && yarn', { stdio: [0, 1, 2] }],
+      ['cd myFakeName && npx react-native-rename myFakeName && yarn', { stdio: [0, 1, 2] }],
     ]);
 
     expect(fs.emptyDirSync.mock.calls).toEqual([['myFakeName']]);

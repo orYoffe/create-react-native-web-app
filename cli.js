@@ -12,13 +12,11 @@ const nodeVersionSplitted = nodeVersion.split(".");
 const nodeMajorVersion = nodeVersionSplitted[0];
 
 if (nodeMajorVersion < 8) {
-  console.error(
-    chalk.red(`
+  console.error(chalk.red(`
       You are running Node ${nodeVersion}
       Create React Native Web App requires Node 8 or higher.
       Please update your version of Node.
-  `)
-  );
+  `));
   process.exit(1);
 }
 
@@ -39,9 +37,7 @@ const program = new commander.Command(packageJson.name)
     console.log(
       `    If you have any problems, do not hesitate to file an issue:`
     );
-    printCyan(
-      "https://github.com/VISI-ONE/create-react-native-web-app/issues/new"
-    );
+    printCyan("https://github.com/VISI-ONE/create-react-native-web-app/issues/new");
     console.log();
   })
   .parse(process.argv);
@@ -90,9 +86,7 @@ if (appName) {
   console.log();
   const packageManagerRunCommand = isYarnAvailable ? "yarn" : "npm run";
   console.log(`
-        ${chalk.magenta("*")} ${chalk.magenta(
-    "change directory to your new project"
-  )}
+        ${chalk.magenta("*")} ${chalk.magenta("change directory to your new project")}
         $ ${chalk.cyan(`cd ${appName}`)}
 
         $ ${chalk.cyan("Then run the these commands to get started:")}
@@ -100,19 +94,13 @@ if (appName) {
         ${chalk.magenta("*")} ${chalk.magenta("To run development Web server")}
         $ ${chalk.cyan(packageManagerRunCommand + " web")}
 
-        ${chalk.magenta("*")} ${chalk.magenta(
-    'To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)'
-  )}
+        ${chalk.magenta("*")} ${chalk.magenta('To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)')}
         $ ${chalk.cyan(packageManagerRunCommand + " android")}
 
-        ${chalk.magenta("*")} ${chalk.magenta(
-    "To run ios simulator (after installing Xcode - only on Apple devices)"
-  )}
+        ${chalk.magenta("*")} ${chalk.magenta("To run ios simulator (after installing Xcode - only on Apple devices)")}
         $ ${chalk.cyan(packageManagerRunCommand + " ios")}
 
-        ${chalk.magenta("*")} ${chalk.magenta(
-    "To run tests for Native and Web"
-  )}
+        ${chalk.magenta("*")} ${chalk.magenta("To run tests for Native and Web")}
         $ ${chalk.cyan(packageManagerRunCommand + " test")}
 
         ${chalk.magenta("*")} ${chalk.magenta("To run build for Web")}
@@ -120,9 +108,7 @@ if (appName) {
     `);
 } else {
   console.error(
-    chalk.red(
-      "In order to create a new project you must give a name as an argument. "
-    ),
+    chalk.red("In order to create a new project you must give a name as an argument. "),
     chalk.cyan("Example: create-react-native-web-app AppName")
   );
   process.exit(1);
