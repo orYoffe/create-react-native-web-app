@@ -194,6 +194,7 @@ Sync it again and now you can close Android Studio. See issue [#7](https://githu
 |-|-|
 |Or Yoffe|https://github.com/orYoffe|
 |Havit C. Rovik|https://github.com/haruelrovix|
+|Jeremy L. Shepherd|https://github.com/jeremylshepherd|
 
 ## Resources
 - [React Native for Web (react-native-web)](https://github.com/necolas/react-native-web)
