@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-app",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "React Native Web CLI",
   "main": "cli.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VISI-ONE/create-react-native-web-app.git"
+    "url": "git+https://github.com/orYoffe/create-react-native-web-app.git"
   },
   "keywords": [
     "react",
@@ -27,9 +27,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VISI-ONE/create-react-native-web-app/issues"
+    "url": "https://github.com/orYoffe/create-react-native-web-app/issues"
   },
-  "homepage": "https://github.com/VISI-ONE/create-react-native-web-app#readme",
+  "homepage": "https://github.com/orYoffe/create-react-native-web-app#readme",
   "devDependencies": {
     "husky": "^0.14.3",
     "jest": "^23.1.0"
