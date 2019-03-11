@@ -23,7 +23,7 @@
     "react-dom": "^16.6.x",
     "react-art": "^16.6.x",
     "react-native": "0.55.x",
-    "react-native-web": "^0.9.x"
+    "react-native-web": "^0.10.x"
   },
   "devDependencies": {
     "@babel/core": "7.1.0",
