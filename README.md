@@ -159,7 +159,7 @@ $ open ./android/app/build/outputs/apk
 
 ## Troubleshooting
 ### XCode 10
-See [crnwa-xcode-patch](https://github.com/closetothe/create-react-native-web-app) for a summary of how to fix the two known issues caused by XCode 10.x. For more detail, see [`react-native` issue #19573](https://github.com/facebook/react-native/issues/19573).  
+See [crnwa-xcode-patch](https://github.com/closetothe/crnwa-xcode-patch) for a summary of how to fix the two known issues caused by XCode 10.x. For more detail, see [`react-native` issue #19573](https://github.com/facebook/react-native/issues/19573).  
 
 ### Android
 If you got `Execution failed for task ':app:compileDebugAidl'` when running `yarn android`, try to update Android Gradle plugin to version 3.1.1 and Gradle to version 4.4.
