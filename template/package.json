@@ -18,12 +18,13 @@
     "coverage:native": "node scripts/test.js --config \"./config/native.jest.config.js\" --coverage"
   },
   "dependencies": {
-    "react": "^16.6.x",
+    "core-js": "^2.6.10",
+    "react": "^16.11.0",
     "react-app-polyfill": "^0.1.3",
-    "react-dom": "^16.6.x",
-    "react-art": "^16.6.x",
-    "react-native": "0.55.x",
-    "react-native-web": "^0.10.x"
+    "react-art": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-native": "^0.59.10",
+    "react-native-web": "^0.11.7"
   },
   "devDependencies": {
     "@babel/core": "7.1.0",

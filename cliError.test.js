@@ -38,7 +38,6 @@ describe('cli shows error', () => {
     process.argv[2] = '';
     require('./cli');
 
-    expect(execSync.mock.calls).toEqual([['yarnpkg --version', {stdio: 'ignore'}]]);
 
     expect(console.error.mock.calls).toEqual([['In order to create a new project you must give a name as an argument. ', 'Example: create-react-native-web-app AppName']]);
     expect(process.exit.mock.calls).toEqual([[1]]);

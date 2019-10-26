@@ -37,18 +37,10 @@ const program = new commander.Command(packageJson.name)
     console.log(
       `    If you have any problems, do not hesitate to file an issue:`
     );
-    printCyan("https://github.com/VISI-ONE/create-react-native-web-app/issues/new");
+    printCyan("https://github.com/orYoffe/create-react-native-web-app/issues/new");
     console.log();
   })
   .parse(process.argv);
-
-let isYarnAvailable;
-try {
-  execSync("yarnpkg --version", { stdio: "ignore" });
-  isYarnAvailable = true;
-} catch (e) {
-  isYarnAvailable = false;
-}
 
 if (appName) {
   printCyan(`⏳ Creating React Native Web App by the name of ${appName} ...`);
@@ -68,13 +60,7 @@ if (appName) {
   // install deps
   printCyan("⏳ Installing project dependencies...");
   console.log();
-  let command = `cd ${appName} && npx react-native-rename ${appName} && `;
-  let args;
-  if (isYarnAvailable) {
-    command += "yarn";
-  } else {
-    command += "npm i";
-  }
+  let command = `cd ${appName} && npx react-native-rename ${appName} && npm i`;
 
   execSync(command, { stdio: [0, 1, 2] });
 
@@ -84,7 +70,7 @@ if (appName) {
   // print script commands with info links
   printGreen("✅ Done! 😁👍 Your project is ready for development.");
   console.log();
-  const packageManagerRunCommand = isYarnAvailable ? "yarn" : "npm run";
+  const packageManagerRunCommand = "npm run";
   console.log(`
         ${chalk.magenta("*")} ${chalk.magenta("change directory to your new project")}
         $ ${chalk.cyan(`cd ${appName}`)}

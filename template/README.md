@@ -1,17 +1,17 @@
-# this repository was initiated with create-react-native-web-app
+# This repository was initiated with create-react-native-web-app
 
 [![NPM](https://nodei.co/npm/create-react-native-web-app.png)](https://npmjs.org/package/create-react-native-web-app)
 
-![GitHub issues](https://img.shields.io/github/issues/VISI-ONE/create-react-native-web-app.svg)
-![license](https://img.shields.io/github/license/VISI-ONE/create-react-native-web-app.svg)
-![GitHub top language](https://img.shields.io/github/languages/top/VISI-ONE/create-react-native-web-app.svg)
+![GitHub issues](https://img.shields.io/github/issues/orYoffe/create-react-native-web-app.svg)
+![license](https://img.shields.io/github/license/orYoffe/create-react-native-web-app.svg)
+![GitHub top language](https://img.shields.io/github/languages/top/orYoffe/create-react-native-web-app.svg)
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/create-react-native-web-app.svg)
 ![npm](https://img.shields.io/npm/v/create-react-native-web-app.svg)
 
 ### A simple CLI tool to start your React Native Web project to develop same app for IOS Android and Web. Constructed from create-react-app and create-react-native-app
 
 <p align="center" >
-<img width="300"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/template/src/logo.png">
+<img width="300"  src="https://raw.githubusercontent.com/orYoffe/create-react-native-web-app/master/template/src/logo.png">
 </p>
 
 ## Installation
@@ -47,7 +47,7 @@ $ npm run android
 - Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
 
 <p align="center" >
-<img width="1000"  src="https://raw.githubusercontent.com/VISI-ONE/create-react-native-web-app/master/cli_preview.png">
+<img width="1000"  src="https://raw.githubusercontent.com/orYoffe/create-react-native-web-app/master/cli_preview.png">
 </p>
 
 ## Folder structure
@@ -94,7 +94,7 @@ myApp
     └── registerServiceWorker.js
 ```
 
-[Example app built with this CLI](https://github.com/VISI-ONE/create-react-native-web-example)
+[Example app built with this CLI](https://github.com/orYoffe/create-react-native-web-example)
 
 ## Testing
 
@@ -186,7 +186,7 @@ dependencies {
 }
 ```
 
-Sync it again and now you can close Android Studio. See issue [#7](https://github.com/VISI-ONE/create-react-native-web-app/issues/7#issuecomment-432263368) for your references.
+Sync it again and now you can close Android Studio. See issue [#7](https://github.com/orYoffe/create-react-native-web-app/issues/7#issuecomment-432263368) for your references.
 
 ## Contributors
 ||:octocat:|
