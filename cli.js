@@ -68,7 +68,7 @@ if (appName) {
   // install deps
   printCyan("⏳ Installing project dependencies...");
   console.log();
-  let command = `cd ${appName} && npx react-native-rename ${appName} && `;
+  let command = `cd ${appName} && npx react-native-rename-next ${appName} && `;
   let args;
   if (isYarnAvailable) {
     command += "yarn";
