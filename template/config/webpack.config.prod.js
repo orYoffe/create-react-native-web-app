@@ -348,6 +348,17 @@ module.exports = {
               // debugger to show the original code. Instead, the code
               // being evaluated would be much more helpful.
               sourceMaps: false,
+
+              plugins: [
+                [
+                  "module-resolver",
+                  {
+                    "alias": {
+                      "^react-native$": "react-native-web"
+                    }
+                  }
+                ],
+              ]
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.

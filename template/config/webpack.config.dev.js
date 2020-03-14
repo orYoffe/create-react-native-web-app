@@ -269,7 +269,17 @@ module.exports = {
                 ],
               ],
               cacheDirectory: true,
-              plugins: ['react-hot-loader/babel'],
+              plugins: [
+                'react-hot-loader/babel',
+                [
+                  "module-resolver",
+                  {
+                    "alias": {
+                      "^react-native$": "react-native-web"
+                    }
+                  }
+                ],
+              ],
               // Don't waste time on Gzipping the cache
               cacheCompression: false,
 
