@@ -216,10 +216,13 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
+              presets: [
+                ["module:metro-react-native-babel-preset"],
+                ['react-app']
+              ],
               customize: require.resolve(
                 'babel-preset-react-app/webpack-overrides'
               ),
-
               plugins: [
                 [
                   require.resolve('babel-plugin-named-asset-import'),
@@ -232,6 +235,14 @@ module.exports = {
                   },
                 ],
                 'react-hot-loader/babel',
+                [
+                  "module-resolver",
+                  {
+                    "alias": {
+                      "^react-native$": "react-native-web"
+                    }
+                  }
+                ],
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/

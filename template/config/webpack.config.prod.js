@@ -290,10 +290,13 @@ module.exports = {
 
             loader: require.resolve('babel-loader'),
             options: {
+              presets: [
+                ["module:metro-react-native-babel-preset"],
+                ['react-app']
+              ],
               customize: require.resolve(
                 'babel-preset-react-app/webpack-overrides'
               ),
-              
               plugins: [
                 [
                   require.resolve('babel-plugin-named-asset-import'),
@@ -304,6 +307,14 @@ module.exports = {
                       },
                     },
                   },
+                ],
+                [
+                  "module-resolver",
+                  {
+                    "alias": {
+                      "^react-native$": "react-native-web"
+                    }
+                  }
                 ],
               ],
               cacheDirectory: true,
