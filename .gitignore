@@ -85,3 +85,5 @@ android/app/app-release.apk
 =======
 # Bundle artifact
 *.jsbundle
+
+!template/android/app/debug.keystore
