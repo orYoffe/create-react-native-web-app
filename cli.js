@@ -24,12 +24,14 @@ const printCyan = text => console.log(`      ${chalk.cyan(text)}`);
 const printGreen = text => console.log(`      ${chalk.green(text)}`);
 
 let appName;
+let appBundleId;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
-  .arguments("<project-directory>")
-  .usage(`${chalk.green("<project-directory>")}`)
-  .action(name => {
+  .arguments("<project-directory> [<bundle-id>]")
+  .usage(`${chalk.green("<project-directory>")} [${chalk.green("<bundle-id>")}]`)
+  .action((name, bundleId) => {
     appName = name;
+    appBundleId = bundleId;
   })
   .on("--help", () => {
     console.log(`    Only ${chalk.green("<project-directory>")} is required.`);
@@ -68,7 +70,7 @@ if (appName) {
   // install deps
   printCyan("⏳ Installing project dependencies...");
   console.log();
-  let command = `cd ${appName} && npx react-native-rename-next ${appName} && `;
+  let command = `cd ${appName} && npx react-native-rename-next ${appName}${appBundleId ? ` -b ${appBundleId}` : ""} && `;
   let args;
   if (isYarnAvailable) {
     command += "yarn";
