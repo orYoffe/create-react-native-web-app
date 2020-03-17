@@ -16,17 +16,12 @@
 
 ## Installation
 
-- Android - Install [adb (Android Debug Bridge)](https://developer.android.com/studio/releases/platform-tools.html)
-- IOS - Xcode and an apple device required
-
-* Install the package globally and run it with your name of choice
-
 ```sh
-# Install package
-$ npm install -g create-react-native-web-app
-
 # Run create-react-native-web-app <project-directory>
-$ create-react-native-web-app myApp
+$ npx create-react-native-web-app myApp
+
+# if you previously installed this package globaly run this command first to uninstall the previous version:
+# npm uninstall -g create-react-native-web-app
 
 # cd into your <project-directory>
 $ cd myApp
@@ -43,7 +38,7 @@ $ npm run android
 
 ```
 
-- Optional - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
+- To work with IOS and Android - Install Xcode and Android studio and follow the react native instructions [under the "Building Projects with Native Code" tab](http://facebook.github.io/react-native/docs/getting-started.html)
 
 <p align="center" >
 <img width="1000"  src="https://raw.githubusercontent.com/orYoffe/create-react-native-web-app/master/cli_preview.png">
