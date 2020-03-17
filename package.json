@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-app",
-  "version": "0.1.14",
+  "version": "0.15.0",
   "description": "React Native Web CLI",
   "main": "cli.js",
   "scripts": {
@@ -8,6 +8,9 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "precommit": "npm run test"
+  },
+  "engines": {
+    "node": ">=8"
   },
   "bin": {
     "create-react-native-web-app": "cli.js"
