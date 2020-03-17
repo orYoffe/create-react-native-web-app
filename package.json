@@ -20,6 +20,8 @@
     "react",
     "native",
     "web",
+    "ios",
+    "android",
     "react-native",
     "react-native-web"
   ],
@@ -39,7 +41,8 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "commander": "^2.15.1",
-    "fs-extra": "^6.0.1"
+    "cpy": "^7.3.0",
+    "fs-extra": "^8.0.1"
   },
   "jest": {
     "testEnvironment": "node",

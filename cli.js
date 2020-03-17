@@ -4,6 +4,7 @@ const chalk = require("chalk");
 const commander = require("commander");
 const fs = require("fs-extra");
 const path = require("path");
+const cpy = require("cpy");
 const execSync = require("child_process").execSync;
 const packageJson = require("./package.json");
 
@@ -12,11 +13,13 @@ const nodeVersionSplitted = nodeVersion.split(".");
 const nodeMajorVersion = nodeVersionSplitted[0];
 
 if (nodeMajorVersion < 8) {
-  console.error(chalk.red(`
+  console.error(
+    chalk.red(`
       You are running Node ${nodeVersion}
       Create React Native Web App requires Node 8 or higher.
       Please update your version of Node.
-  `));
+  `)
+  );
   process.exit(1);
 }
 
@@ -24,12 +27,16 @@ const printCyan = text => console.log(`      ${chalk.cyan(text)}`);
 const printGreen = text => console.log(`      ${chalk.green(text)}`);
 
 let appName;
+let appBundleId;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
-  .arguments("<project-directory>")
-  .usage(`${chalk.green("<project-directory>")}`)
-  .action(name => {
+  .arguments("<project-directory> [<bundle-id>]")
+  .usage(
+    `${chalk.green("<project-directory>")} [${chalk.green("<bundle-id>")}]`
+  )
+  .action((name, bundleId) => {
     appName = name;
+    appBundleId = bundleId;
   })
   .on("--help", () => {
     console.log(`    Only ${chalk.green("<project-directory>")} is required.`);
@@ -37,7 +44,9 @@ const program = new commander.Command(packageJson.name)
     console.log(
       `    If you have any problems, do not hesitate to file an issue:`
     );
-    printCyan("https://github.com/orYoffe/create-react-native-web-app/issues/new");
+    printCyan(
+      "https://github.com/orYoffe/create-react-native-web-app/issues/new"
+    );
     console.log();
   })
   .parse(process.argv);
@@ -46,33 +55,33 @@ if (appName) {
   printCyan(`⏳ Creating React Native Web App by the name of ${appName} ...`);
   console.log();
 
+  printCyan("⏳ Creating project folder...");
+  console.log();
   // create folder appName and copy files
   fs.ensureDirSync(appName);
   fs.emptyDirSync(appName);
 
-  printCyan("✅ Created project folder.");
+  printCyan("⏳ Adding project files...");
   console.log();
-  const copy = fs.copySync(path.resolve(__dirname, "template"), appName);
-
-  printCyan("✅ Added project files.");
-  console.log();
+  fs.copySync(path.resolve(__dirname, "template"), appName);
 
   // install deps
   printCyan("⏳ Installing project dependencies...");
   console.log();
-  let command = `cd ${appName} && npx react-native-rename ${appName} && npm i`;
+  const installCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
+    appBundleId ? ` -b ${appBundleId}` : ""
+  } && npm i`;
 
-  execSync(command, { stdio: [0, 1, 2] });
-
-  printCyan("✅ Installed project dependencies.");
-  console.log();
+  execSync(installCommand, { stdio: [0, 1, 2] });
 
   // print script commands with info links
   printGreen("✅ Done! 😁👍 Your project is ready for development.");
   console.log();
   const packageManagerRunCommand = "npm run";
   console.log(`
-        ${chalk.magenta("*")} ${chalk.magenta("change directory to your new project")}
+        ${chalk.magenta("*")} ${chalk.magenta(
+    "change directory to your new project"
+  )}
         $ ${chalk.cyan(`cd ${appName}`)}
 
         $ ${chalk.cyan("Then run the these commands to get started:")}
@@ -80,13 +89,19 @@ if (appName) {
         ${chalk.magenta("*")} ${chalk.magenta("To run development Web server")}
         $ ${chalk.cyan(packageManagerRunCommand + " web")}
 
-        ${chalk.magenta("*")} ${chalk.magenta('To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)')}
+        ${chalk.magenta("*")} ${chalk.magenta(
+    'To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)'
+  )}
         $ ${chalk.cyan(packageManagerRunCommand + " android")}
 
-        ${chalk.magenta("*")} ${chalk.magenta("To run ios simulator (after installing Xcode - only on Apple devices)")}
+        ${chalk.magenta("*")} ${chalk.magenta(
+    "To run ios simulator (after installing Xcode - only on Apple devices)"
+  )}
         $ ${chalk.cyan(packageManagerRunCommand + " ios")}
 
-        ${chalk.magenta("*")} ${chalk.magenta("To run tests for Native and Web")}
+        ${chalk.magenta("*")} ${chalk.magenta(
+    "To run tests for Native and Web"
+  )}
         $ ${chalk.cyan(packageManagerRunCommand + " test")}
 
         ${chalk.magenta("*")} ${chalk.magenta("To run build for Web")}
@@ -94,7 +109,9 @@ if (appName) {
     `);
 } else {
   console.error(
-    chalk.red("In order to create a new project you must give a name as an argument. "),
+    chalk.red(
+      "In order to create a new project you must give a name as an argument. "
+    ),
     chalk.cyan("Example: create-react-native-web-app AppName")
   );
   process.exit(1);

@@ -1,14 +1,11 @@
-module.exports = function(api) {
+module.exports = api => {
   api.cache(true);
+
   return {
-    presets: [["module:metro-react-native-babel-preset"], ['react-app']],
-    ignore: [ "node_modules/art/core/color.js" ],
+    presets: ['module:metro-react-native-babel-preset'],
     plugins: [
-      ["module-resolver", {
-        "alias": {
-          "^react-native$": "react-native-web"
-        }
-      }]
-    ],
+      '@babel/plugin-transform-runtime',
+      '@babel/plugin-proposal-class-properties',
+    ].map(require.resolve),
   };
 };
