@@ -51,6 +51,61 @@ const program = new commander.Command(packageJson.name)
   .parse(process.argv);
 
 if (appName) {
+  function installPods() {
+    // TODO add better testing for pods
+    if (process.platform === "darwin") {
+      const iosFolderPath = `${appName}/ios`;
+      try {
+        if (!fs.existsSync(iosFolderPath)) {
+          return;
+        }
+
+        const hasPods = fs.existsSync(`${iosFolderPath}/Podfile`);
+
+        if (!hasPods) {
+          return;
+        }
+
+        try {
+          // Check if "pod" is available and usable. It happens that there are
+          // multiple versions of "pod" command and even though it's there, it exits
+          // with a failure
+          execSync(`cd ${iosFolderPath} && pod --version`, {
+            stdio: [0, 1, 2]
+          });
+        } catch (e) {
+          // "pod" command outputs errors to stdout (at least some of them)
+          console.log(error.stderr || error.stdout);
+
+          throw new Error(
+            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "gem install cocoapods --no-document && cd ./${projectName}/ios && pod install".\nCocoaPods documentation: ${chalk.dim.underline(
+              "https://cocoapods.org/"
+            )}`
+          );
+        }
+
+        try {
+          console.log(
+            `Installing CocoaPods dependencies ${chalk.dim(
+              "(this may take a few minutes)"
+            )}`
+          );
+          execSync(`cd ${iosFolderPath} && pod install`, { stdio: [0, 1, 2] });
+        } catch (error) {
+          // "pod" command outputs errors to stdout (at least some of them)
+          console.log(error.stderr || error.stdout);
+
+          throw new Error(
+            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "cd ./${projectName}/ios && pod install".\nCocoaPods documentation: ${chalk.dim.underline(
+              "https://cocoapods.org/"
+            )}`
+          );
+        }
+      } catch (error) {
+        throw error;
+      }
+    }
+  }
   printCyan(`⏳ Creating React Native Web App by the name of ${appName} ...`);
   console.log();
 
@@ -67,12 +122,14 @@ if (appName) {
   // install deps
   printCyan("⏳ Installing project dependencies...");
   console.log();
+
   const installCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
     appBundleId ? ` -b ${appBundleId}` : ""
   } && npm i`;
 
   execSync(installCommand, { stdio: [0, 1, 2] });
 
+  installPods();
   // print script commands with info links
   printGreen("✅ Done! 😁👍 Your project is ready for development.");
   console.log();
