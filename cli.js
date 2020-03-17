@@ -4,7 +4,6 @@ const chalk = require("chalk");
 const commander = require("commander");
 const fs = require("fs-extra");
 const path = require("path");
-const cpy = require("cpy");
 const execSync = require("child_process").execSync;
 const packageJson = require("./package.json");
 

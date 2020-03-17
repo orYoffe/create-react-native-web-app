@@ -39,9 +39,8 @@
     "jest": "^23.1.0"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^3.0.0",
     "commander": "^2.15.1",
-    "cpy": "^7.3.0",
     "fs-extra": "^8.0.1"
   },
   "jest": {
