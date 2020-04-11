@@ -99,14 +99,14 @@ describe("cli runs properly", () => {
       if (isWin) {
         expect(execSync.mock.calls).toEqual([
           [
-            "cd myFakeName && npx react-native-rename-next myFakeName && npm i",
+            "cd myFakeName && npx react-native-rename-next myFakeName && npm i ",
             { stdio: [0, 1, 2] },
           ],
         ]);
       } else {
         expect(execSync.mock.calls).toEqual([
           [
-            "cd myFakeName && npx react-native-rename-next myFakeName && npm i",
+            "cd myFakeName && npx react-native-rename-next myFakeName && npm i ",
             { stdio: [0, 1, 2] },
           ],
           ["cd myFakeName/ios && pod --version"],

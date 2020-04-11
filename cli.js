@@ -28,6 +28,7 @@ const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
 
 let appName;
 let appBundleId;
+let shouldAddRouter = false;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
   .arguments("<project-directory> [<bundle-id>]")
@@ -48,6 +49,9 @@ const program = new commander.Command(packageJson.name)
       "https://github.com/orYoffe/create-react-native-web-app/issues/new"
     );
     console.log();
+  })
+  .on("--router", () => {
+    shouldAddRouter = true;
   })
   .parse(process.argv);
 
@@ -114,7 +118,6 @@ async function run() {
     // create folder appName and copy files
     fs.ensureDirSync(appName);
     fs.emptyDirSync(appName);
-
     printCyan("⏳ Adding project files...");
     console.log();
 
@@ -128,9 +131,21 @@ async function run() {
 
     const installCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
       appBundleId ? ` -b ${appBundleId}` : ""
-    } && npm i`;
+    } && npm i ${
+      shouldAddRouter ? " -S react-router-native react-router-dom" : ""
+    }`;
 
     execSync(installCommand, { stdio: [0, 1, 2] });
+
+    if (shouldAddRouter) {
+      fs.removeSync(`${appName}/src/App.js`);
+      await copyFiles(
+        path.resolve(__dirname, "react-router"),
+        `${appName}/src`
+      );
+
+      printCyan("Added react router dom and native.");
+    }
 
     installPods();
 
