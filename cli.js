@@ -22,8 +22,8 @@ if (nodeMajorVersion < 8) {
   process.exit(1);
 }
 
-const printCyan = text => console.log(`      ${chalk.cyan(text)}`);
-const printGreen = text => console.log(`      ${chalk.green(text)}`);
+const printCyan = (text) => console.log(`      ${chalk.cyan(text)}`);
+const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
 
 let appName;
 let appBundleId;
@@ -70,35 +70,33 @@ if (appName) {
           // Check if "pod" is available and usable. It happens that there are
           // multiple versions of "pod" command and even though it's there, it exits
           // with a failure
-          execSync(`cd ${iosFolderPath} && pod --version`, {
-            stdio: [0, 1, 2]
-          });
+          execSync(`cd ${iosFolderPath} && pod --version`);
         } catch (e) {
           // "pod" command outputs errors to stdout (at least some of them)
           console.log(error.stderr || error.stdout);
 
           throw new Error(
-            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "gem install cocoapods --no-document && cd ./${projectName}/ios && pod install".\nCocoaPods documentation: ${chalk.dim.underline(
+            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "gem install cocoapods --no-document && cd ./${appName}/ios && pod install".\nCocoaPods documentation: 
               "https://cocoapods.org/"
-            )}`
+            `
           );
         }
 
         try {
           console.log(
-            `Installing CocoaPods dependencies ${chalk.dim(
+            `Installing CocoaPods dependencies 
               "(this may take a few minutes)"
-            )}`
+            `
           );
-          execSync(`cd ${iosFolderPath} && pod install`, { stdio: [0, 1, 2] });
+          execSync(`cd ${iosFolderPath} && pod install`);
         } catch (error) {
           // "pod" command outputs errors to stdout (at least some of them)
           console.log(error.stderr || error.stdout);
 
           throw new Error(
-            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "cd ./${projectName}/ios && pod install".\nCocoaPods documentation: ${chalk.dim.underline(
+            `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "cd ./${appName}/ios && pod install".\nCocoaPods documentation: 
               "https://cocoapods.org/"
-            )}`
+            `
           );
         }
       } catch (error) {
@@ -130,6 +128,10 @@ if (appName) {
   execSync(installCommand, { stdio: [0, 1, 2] });
 
   installPods();
+
+  try {
+    execSync(`cd ${appName} && git init`);
+  } catch (error) {}
   // print script commands with info links
   printGreen("✅ Done! 😁👍 Your project is ready for development.");
   console.log();

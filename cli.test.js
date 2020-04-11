@@ -10,11 +10,13 @@ jest.mock("fs-extra", () => {
   const ensureDirSync = jest.fn();
   const emptyDirSync = jest.fn();
   const copySync = jest.fn();
+  const existsSync = jest.fn();
 
   return {
     ensureDirSync,
     emptyDirSync,
-    copySync
+    copySync,
+    existsSync,
   };
 });
 
@@ -31,22 +33,23 @@ jest.mock("child_process", () => {
 });
 
 jest.mock("chalk", () => {
-  const red = jest.fn(text => text);
-  const cyan = jest.fn(text => text);
-  const green = jest.fn(text => text);
-  const magenta = jest.fn(text => text);
+  const red = jest.fn((text) => text);
+  const cyan = jest.fn((text) => text);
+  const green = jest.fn((text) => text);
+  const magenta = jest.fn((text) => text);
 
   return {
     red,
     cyan,
     green,
-    magenta
+    magenta,
   };
 });
 
 describe("cli runs properly", () => {
   it("cli runs with argument and logs info", () => {
     process.argv[2] = "myFakeName";
+    fs.existsSync.mockReturnValue(true);
     jest.requireActual("./cli");
 
     expect(chalk.red.mock.calls).toEqual([]);
@@ -61,12 +64,12 @@ describe("cli runs properly", () => {
       ["npm run android"],
       ["npm run ios"],
       ["npm run test"],
-      ["npm run build"]
+      ["npm run build"],
     ]);
     expect(chalk.green.mock.calls).toEqual([
       ["<project-directory>"],
       ["<bundle-id>"],
-      ["✅ Done! 😁👍 Your project is ready for development."]
+      ["✅ Done! 😁👍 Your project is ready for development."],
     ]);
     expect(chalk.magenta.mock.calls).toEqual([
       ["*"],
@@ -75,27 +78,39 @@ describe("cli runs properly", () => {
       ["To run development Web server"],
       ["*"],
       [
-        'To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)'
+        'To run Android on connected device (after installing Android Debug Bridge "adb" - https://developer.android.com/studio/releases/platform-tools)',
       ],
       ["*"],
       ["To run ios simulator (after installing Xcode - only on Apple devices)"],
       ["*"],
       ["To run tests for Native and Web"],
       ["*"],
-      ["To run build for Web"]
+      ["To run build for Web"],
     ]);
 
-    expect(execSync.mock.calls).toEqual([
-      [
-        "cd myFakeName && npx react-native-rename-next myFakeName && npm i",
-        { stdio: [0, 1, 2] }
-      ]
-    ]);
+    if (isWin) {
+      expect(execSync.mock.calls).toEqual([
+        [
+          "cd myFakeName && npx react-native-rename-next myFakeName && npm i",
+          { stdio: [0, 1, 2] },
+        ],
+      ]);
+    } else {
+      expect(execSync.mock.calls).toEqual([
+        [
+          "cd myFakeName && npx react-native-rename-next myFakeName && npm i",
+          { stdio: [0, 1, 2] },
+        ],
+        ["cd myFakeName/ios && pod --version"],
+        ["cd myFakeName/ios && pod install"],
+        ["cd myFakeName && git init"],
+      ]);
+    }
 
     expect(fs.emptyDirSync.mock.calls).toEqual([["myFakeName"]]);
     expect(fs.ensureDirSync.mock.calls).toEqual([["myFakeName"]]);
     expect(fs.copySync.mock.calls).toEqual([
-      [__dirname + (isWin ? "\\" : "/") + "template", "myFakeName"]
+      [__dirname + (isWin ? "\\" : "/") + "template", "myFakeName"],
     ]);
 
     const lastConsoleLog = `
@@ -134,6 +149,11 @@ describe("cli runs properly", () => {
       [],
       ["      ⏳ Installing project dependencies..."],
       [],
+      [
+        `Installing CocoaPods dependencies 
+              "(this may take a few minutes)"
+            `,
+      ],
       ["      ✅ Done! 😁👍 Your project is ready for development."],
       [],
       [
@@ -157,8 +177,8 @@ describe("cli runs properly", () => {
 
         * To run build for Web
         $ npm run build
-    `
-      ]
+    `,
+      ],
     ]);
   });
 });
