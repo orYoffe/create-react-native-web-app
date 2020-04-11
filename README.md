@@ -20,6 +20,8 @@
 
 ```sh
 # Run create-react-native-web-app <project-directory>
+$ npx crnwa myApp
+# or
 $ npx create-react-native-web-app myApp
 
 # if you previously installed this package globaly run this command first to uninstall the previous version:
