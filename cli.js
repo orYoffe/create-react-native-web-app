@@ -129,12 +129,14 @@ async function run() {
     printCyan("⏳ Installing project dependencies...");
     console.log();
 
-    const installCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
+    const renameCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
       appBundleId ? ` -b ${appBundleId}` : ""
-    } && npm i ${
+    }`;
+    const installCommand = `cd ${appName} && npm i ${
       shouldAddRouter ? " -S react-router-native react-router-dom" : ""
     }`;
 
+    execSync(renameCommand);
     execSync(installCommand, { stdio: [0, 1, 2] });
 
     if (shouldAddRouter) {
@@ -144,7 +146,7 @@ async function run() {
         `${appName}/src`
       );
 
-      printCyan("Added react router dom and native.");
+      printCyan("👍 Added react router dom and native.");
     }
 
     installPods();

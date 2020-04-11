@@ -105,10 +105,8 @@ describe("cli runs properly", () => {
         ]);
       } else {
         expect(execSync.mock.calls).toEqual([
-          [
-            "cd myFakeName && npx react-native-rename-next myFakeName && npm i ",
-            { stdio: [0, 1, 2] },
-          ],
+          ["cd myFakeName && npx react-native-rename-next myFakeName"],
+          ["cd myFakeName && npm i ", { stdio: [0, 1, 2] }],
           ["cd myFakeName/ios && pod --version"],
           ["cd myFakeName/ios && pod install"],
           ["cd myFakeName && git init"],
