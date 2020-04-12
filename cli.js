@@ -126,10 +126,12 @@ async function run() {
     printCyan("⏳ Installing project dependencies...");
     console.log();
 
-    const installCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
+    const renameCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
       appBundleId ? ` -b ${appBundleId}` : ""
-    } && npm i`;
+    }`;
 
+    execSync(renameCommand);
+    const installCommand = `cd ${appName} && npm i`;
     execSync(installCommand, { stdio: [0, 1, 2] });
 
     installPods();
