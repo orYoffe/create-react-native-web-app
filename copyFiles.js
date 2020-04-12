@@ -53,7 +53,6 @@ function copyFile(srcPath, destPath) {
     });
   });
 }
-module.exports.copyFile = copyFile;
 
 /**
  * Same as 'cp' on Unix. Don't do any replacements.
@@ -83,3 +82,5 @@ function copyBinaryFile(srcPath, destPath, cb) {
 }
 
 module.exports = copyFiles;
+
+module.exports.copyFile = copyFile;
