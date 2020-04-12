@@ -123,15 +123,10 @@ async function run() {
       execSync(`cd ${appName} && git init`);
     } catch (error) {}
 
-    if (!fs.existsSync(path.resolve(appName, ".gitignore"))) {
-      const absoluteSrcFilePath = path.resolve(
-        __dirname,
-        "template",
-        ".gitignore"
-      );
-
-      await copyFile(absoluteSrcFilePath, appName);
-    }
+    fs.renameSync(
+      path.resolve(appName, ".gitignore.txt"),
+      path.resolve(appName, ".gitignore")
+    );
 
     // fs.copySync(path.resolve(__dirname, "template"), appName);
 
