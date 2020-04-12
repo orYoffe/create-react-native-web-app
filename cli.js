@@ -6,7 +6,8 @@ const fs = require("fs-extra");
 const path = require("path");
 const execSync = require("child_process").execSync;
 const packageJson = require("./package.json");
-const copyFiles, { copyFile} = require("./copyFiles");
+const copyFiles = require("./copyFiles");
+const { copyFile } = require("./copyFiles");
 
 const nodeVersion = process.versions.node;
 const nodeVersionSplitted = nodeVersion.split(".");
@@ -118,21 +119,21 @@ async function run() {
 
     await copyFiles(path.resolve(__dirname, "template"), appName);
 
-
-    if (!fs.existsSync(path.resolve(appName, ".gitignore"))) {
-      const absoluteSrcFilePath = path.resolve(__dirname, 'template', '.gitignore');
-
-      await copyFile(
-        absoluteSrcFilePath,
-        appName,
-      );
-    }
-
-
-    // fs.copySync(path.resolve(__dirname, "template"), appName);
     try {
       execSync(`cd ${appName} && git init`);
     } catch (error) {}
+
+    if (!fs.existsSync(path.resolve(appName, ".gitignore"))) {
+      const absoluteSrcFilePath = path.resolve(
+        __dirname,
+        "template",
+        ".gitignore"
+      );
+
+      await copyFile(absoluteSrcFilePath, appName);
+    }
+
+    // fs.copySync(path.resolve(__dirname, "template"), appName);
 
     // install deps
     printCyan("⏳ Installing project dependencies...");
