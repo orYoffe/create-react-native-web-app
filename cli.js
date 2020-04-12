@@ -26,12 +26,22 @@ if (nodeMajorVersion < 8) {
 const printCyan = (text) => console.log(`      ${chalk.cyan(text)}`);
 const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
 
+function replacePathSepForRegex(string) {
+  if (path.sep === "\\") {
+    return string.replace(
+      /(\/|(.)?\\(?![[\]{}()*+?.^$|\\]))/g,
+      (_match, _, p2) => (p2 && p2 !== "\\" ? p2 + "\\\\" : "\\\\")
+    );
+  }
+  return string;
+}
+
 let appName;
 let appBundleId;
-let shouldAddRouter = false;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
   .arguments("<project-directory> [<bundle-id>]")
+  .option("-r, --router")
   .usage(
     `${chalk.green("<project-directory>")} [${chalk.green("<bundle-id>")}]`
   )
@@ -50,9 +60,6 @@ const program = new commander.Command(packageJson.name)
     );
     console.log();
   })
-  .on("--router", () => {
-    shouldAddRouter = true;
-  })
   .parse(process.argv);
 
 async function run() {
@@ -60,7 +67,7 @@ async function run() {
     function installPods() {
       // TODO add better testing for pods
       if (process.platform === "darwin") {
-        const iosFolderPath = `${appName}/ios`;
+        const iosFolderPath = path.resolve(appName, "ios");
         try {
           if (!fs.existsSync(iosFolderPath)) {
             return;
@@ -110,20 +117,33 @@ async function run() {
         }
       }
     }
-    printCyan(`⏳ Creating React Native Web App by the name of ${appName} ...`);
+
+    printCyan(`⏳ Creating React Native Web App by the name of ${appName}`);
     console.log();
 
     printCyan("⏳ Creating project folder...");
     console.log();
+
     // create folder appName and copy files
     fs.ensureDirSync(appName);
     fs.emptyDirSync(appName);
+
     printCyan("⏳ Adding project files...");
     console.log();
-
-    await copyFiles(path.resolve(__dirname, "template"), appName);
-
-    // fs.copySync(path.resolve(__dirname, "template"), appName);
+    try {
+      let regexStr = path.resolve(__dirname, "template", "node_modules");
+      await copyFiles(
+        path.resolve(__dirname, "template"),
+        appName, // path.resolve(process.cwd(), appName),
+        {
+          exclude: [new RegExp(replacePathSepForRegex(regexStr))],
+        }
+      );
+    } catch (error) {
+      console.log("¯/_(ツ)_/¯ Failed to copy folders");
+      console.error(error);
+      process.exit(1);
+    }
 
     // install deps
     printCyan("⏳ Installing project dependencies...");
@@ -132,20 +152,25 @@ async function run() {
     const renameCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
       appBundleId ? ` -b ${appBundleId}` : ""
     }`;
-    const installCommand = `cd ${appName} && npm i ${
-      shouldAddRouter ? " -S react-router-native react-router-dom" : ""
-    }`;
 
     execSync(renameCommand);
+
+    const installCommand = `cd ${appName} && npm i${
+      program.router ? " -S react-router-native react-router-dom" : ""
+    }`;
+
     execSync(installCommand, { stdio: [0, 1, 2] });
 
-    if (shouldAddRouter) {
-      fs.removeSync(`${appName}/src/App.js`);
-      await copyFiles(
-        path.resolve(__dirname, "react-router"),
-        `${appName}/src`
-      );
+    if (program.router) {
+      // fs.removeSync(`${appName}/src/App.js`);
+      // await copyFiles(
+      //   path.resolve(__dirname, "react-router"),
+      //   path.resolve(process.cwd(),appName, "src")
+      // );
 
+      printCyan("👍 Added react router dom and native.");
+      printCyan("👍 Added react router dom and native.");
+      printCyan("👍 Added react router dom and native.");
       printCyan("👍 Added react router dom and native.");
     }
 
@@ -197,4 +222,9 @@ async function run() {
     process.exit(1);
   }
 }
-run();
+
+try {
+  run();
+} catch (error) {
+  console.error(error);
+}
