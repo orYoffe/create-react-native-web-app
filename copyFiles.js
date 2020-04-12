@@ -53,6 +53,7 @@ function copyFile(srcPath, destPath) {
     });
   });
 }
+module.exports.copyFile = copyFile;
 
 /**
  * Same as 'cp' on Unix. Don't do any replacements.

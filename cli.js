@@ -6,7 +6,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const execSync = require("child_process").execSync;
 const packageJson = require("./package.json");
-const copyFiles = require("./copyFiles");
+const copyFiles, { copyFile} = require("./copyFiles");
 
 const nodeVersion = process.versions.node;
 const nodeVersionSplitted = nodeVersion.split(".");
@@ -85,10 +85,8 @@ async function run() {
           }
 
           try {
-            console.log(
-              `Installing CocoaPods dependencies 
-              "(this may take a few minutes)"
-            `
+            printCyan(
+              "⏳ Installing CocoaPods dependencies (this may take a few minutes)..."
             );
             execSync(`cd ${iosFolderPath} && pod install`);
           } catch (error) {
@@ -120,7 +118,21 @@ async function run() {
 
     await copyFiles(path.resolve(__dirname, "template"), appName);
 
+
+    if (!fs.existsSync(path.resolve(appName, ".gitignore"))) {
+      const absoluteSrcFilePath = path.resolve(__dirname, 'template', '.gitignore');
+
+      await copyFile(
+        absoluteSrcFilePath,
+        appName,
+      );
+    }
+
+
     // fs.copySync(path.resolve(__dirname, "template"), appName);
+    try {
+      execSync(`cd ${appName} && git init`);
+    } catch (error) {}
 
     // install deps
     printCyan("⏳ Installing project dependencies...");
@@ -136,9 +148,6 @@ async function run() {
 
     installPods();
 
-    try {
-      execSync(`cd ${appName} && git init`);
-    } catch (error) {}
     // print script commands with info links
     printGreen("✅ Done! 😁👍 Your project is ready for development.");
     console.log();
