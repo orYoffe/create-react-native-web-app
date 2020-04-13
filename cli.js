@@ -26,16 +26,6 @@ if (nodeMajorVersion < 8) {
 const printCyan = (text) => console.log(`      ${chalk.cyan(text)}`);
 const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
 
-function replacePathSepForRegex(string) {
-  if (path.sep === '\\') {
-    return string.replace(
-      /(\/|(.)?\\(?![[\]{}()*+?.^$|\\]))/g,
-      (_match, _, p2) => (p2 && p2 !== '\\' ? p2 + '\\\\' : '\\\\'),
-    );
-  }
-  return string;
-}
-
 let appName;
 let appBundleId;
 const program = new commander.Command(packageJson.name)
@@ -131,16 +121,23 @@ async function run() {
 
     await copyFiles(path.resolve(__dirname, 'template'), appName);
 
-    try {
-      execSync(`cd ${appName} && git init`);
-    } catch (error) {}
+    if (program.router) {
+      printCyan('⏳ Adding react router files...');
+      fs.removeSync(`${appName}/src/App.js`);
+      await copyFiles(
+        path.resolve(__dirname, 'react-router'),
+        path.resolve(appName, 'src'),
+      );
+    }
 
     fs.renameSync(
       path.resolve(appName, '.gitignore.txt'),
       path.resolve(appName, '.gitignore'),
     );
 
-    // fs.copySync(path.resolve(__dirname, "template"), appName);
+    try {
+      execSync(`cd ${appName} && git init`);
+    } catch (error) {}
 
     // install deps
     printCyan('⏳ Installing project dependencies...');
@@ -151,20 +148,11 @@ async function run() {
     }`;
 
     execSync(renameCommand);
+
     const installCommand = `cd ${appName} && npm i${
       program.router ? ' -S react-router-native react-router-dom' : ''
     }`;
     execSync(installCommand, {stdio: [0, 1, 2]});
-
-    if (program.router) {
-      fs.removeSync(`${appName}/src/App.js`);
-      await copyFiles(
-        path.resolve(__dirname, 'react-router'),
-        path.resolve(process.cwd(), appName, 'src'),
-      );
-
-      printCyan('👍 Added react router dom and native.');
-    }
 
     installPods();
 
