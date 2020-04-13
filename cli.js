@@ -123,6 +123,7 @@ async function run() {
 
     if (program.router) {
       printCyan('⏳ Adding react router files...');
+      console.log();
       fs.removeSync(`${appName}/src/App.js`);
       await copyFiles(
         path.resolve(__dirname, 'react-router'),
@@ -150,7 +151,7 @@ async function run() {
     execSync(renameCommand);
 
     const installCommand = `cd ${appName} && npm i${
-      program.router ? ' -S react-router-native react-router-dom' : ''
+      program.router ? '&& npm i -S react-router-native react-router-dom' : ''
     }`;
     execSync(installCommand, {stdio: [0, 1, 2]});
 
@@ -159,6 +160,7 @@ async function run() {
     // print script commands with info links
     printGreen('✅ Done! 😁👍 Your project is ready for development.');
     console.log();
+
     const packageManagerRunCommand = 'npm run';
     console.log(`
         ${chalk.magenta('*')} ${chalk.magenta(
