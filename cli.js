@@ -7,8 +7,7 @@ const path = require("path");
 const execSync = require("child_process").execSync;
 const packageJson = require("./package.json");
 const copyFiles = require("./copyFiles");
-const { copyFile } = require("./copyFiles");
-console.log("--¯_(ツ)_/¯-----------copyFile----------", copyFile);
+
 const nodeVersion = process.versions.node;
 const nodeVersionSplitted = nodeVersion.split(".");
 const nodeMajorVersion = nodeVersionSplitted[0];

@@ -82,5 +82,3 @@ function copyBinaryFile(srcPath, destPath, cb) {
 }
 
 module.exports = copyFiles;
-
-module.exports.copyFile = copyFile;
