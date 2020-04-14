@@ -9,7 +9,7 @@ import {
   Easing,
 } from 'react-native';
 import {Link} from '../router';
-import logo from './logo.png';
+import logo from '../logo.png';
 
 class Home extends Component {
   state = {
@@ -34,7 +34,9 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <Link to="/router">
-          <Text style={styles.title}>To router route</Text>
+          <Text style={[styles.button, styles.buttonText]}>
+            To router route
+          </Text>
         </Link>
         <Animated.Image
           source={logo}
