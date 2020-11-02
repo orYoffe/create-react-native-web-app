@@ -7,7 +7,6 @@
 ![GitHub issues](https://img.shields.io/github/issues/orYoffe/create-react-native-web-app.svg)
 ![license](https://img.shields.io/github/license/orYoffe/create-react-native-web-app.svg)
 ![GitHub top language](https://img.shields.io/github/languages/top/orYoffe/create-react-native-web-app.svg)
-![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/create-react-native-web-app.svg)
 ![npm](https://img.shields.io/npm/v/create-react-native-web-app.svg)
 
 ### A simple CLI tool to start your React Native Web project to develop same app for IOS Android and Web
@@ -45,10 +44,6 @@ $ npm run android
 ```
 
 - To work with IOS and Android - Install Xcode and Android studio and follow the react native instructions [under the "React Native CLI Quickstart" tab](https://reactnative.dev/docs/environment-setup)
-
-<p align="center" >
-<img width="1000"  src="https://raw.githubusercontent.com/orYoffe/create-react-native-web-app/master/cli_preview.png">
-</p>
 
 ## Folder structure
 
