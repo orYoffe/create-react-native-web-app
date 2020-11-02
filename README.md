@@ -12,6 +12,8 @@
 
 ### A simple CLI tool to start your React Native Web project to develop same app for IOS Android and Web
 
+**Compatibility: React Native >= 0.63**.
+
 <p align="center" >
 <img width="300"  src="https://raw.githubusercontent.com/orYoffe/create-react-native-web-app/master/template/src/logo.png">
 </p>

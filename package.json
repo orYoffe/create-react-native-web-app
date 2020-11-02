@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-app",
-  "version": "0.15.6",
+  "version": "0.16.0",
   "description": "React Native Web CLI",
   "main": "cli.js",
   "scripts": {
@@ -26,7 +26,8 @@
     "ios",
     "android",
     "react-native",
-    "react-native-web"
+    "react-native-web",
+    "CLI"
   ],
   "author": {
     "name": "Or Yoffe",
@@ -43,14 +44,12 @@
   },
   "dependencies": {
     "chalk": "^3.0.0",
-    "commander": "^2.15.1",
-    "fs-extra": "^8.0.1"
+    "commander": "^2.15.1"
   },
   "jest": {
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
-      "./node_modules/",
-      "./template/*"
+      "./node_modules/"
     ]
   }
 }

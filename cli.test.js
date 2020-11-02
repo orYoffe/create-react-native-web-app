@@ -1,35 +1,8 @@
 const chalk = require('chalk');
-// const commander = require("commander");
-const fs = require('fs-extra');
-// const path = require("path");
 const execSync = require('child_process').execSync;
-const copyFiles = require('./copyFiles');
-// const packageJson = require("./package.json");
-const isWin = process.platform === 'win32';
-
-jest.mock('fs-extra', () => {
-  const ensureDirSync = jest.fn();
-  const emptyDirSync = jest.fn();
-  const copySync = jest.fn();
-  const existsSync = jest.fn();
-  const renameSync = jest.fn();
-
-  return {
-    ensureDirSync,
-    emptyDirSync,
-    copySync,
-    existsSync,
-    renameSync,
-  };
-});
-jest.mock('./copyFiles', () => {
-  const copyFiles = jest.fn(() => Promise.resolve());
-
-  return copyFiles;
-});
 
 const originalConsoleLog = console.log;
-console.log = jest.fn();
+console.log = jest.fn(() => true);
 
 const originalConsoleError = console.error;
 console.error = jest.fn();
@@ -57,32 +30,30 @@ jest.mock('chalk', () => {
 describe('cli runs properly', () => {
   it('cli runs with argument and logs info', (done) => {
     process.argv[2] = 'myFakeName';
-    fs.existsSync.mockReturnValue(true);
     jest.requireActual('./cli');
 
+    let isYarnAvailable;
+    try {
+      execSync('yarnpkg --version', {stdio: 'ignore'});
+      isYarnAvailable = true;
+    } catch (e) {
+      isYarnAvailable = false;
+    }
+
+    const packageManagerRunCommand = isYarnAvailable ? 'yarn' : 'npm run';
     process.nextTick(() => {
       expect(chalk.red.mock.calls).toEqual([]);
       expect(chalk.cyan.mock.calls).toEqual([
         ['⏳ Creating React Native Web App by the name of myFakeName'],
-        ['⏳ Creating project folder...'],
-        ['⏳ Adding project files...'],
-        ['⏳ Installing project dependencies...'],
-        [
-          '⏳ Installing CocoaPods dependencies (this may take a few minutes)...',
-        ],
         ['cd myFakeName'],
         ['Then run the these commands to get started:'],
-        ['npm run web'],
-        ['npm run android'],
-        ['npm run ios'],
-        ['npm run test'],
-        ['npm run build'],
+        [`${packageManagerRunCommand} web`],
+        [`${packageManagerRunCommand} android`],
+        [`${packageManagerRunCommand} ios`],
+        [`${packageManagerRunCommand} test`],
+        [`${packageManagerRunCommand} build`],
       ]);
-      expect(chalk.green.mock.calls).toEqual([
-        ['<project-directory>'],
-        ['<bundle-id>'],
-        ['✅ Done! 😁👍 Your project is ready for development.'],
-      ]);
+      expect(chalk.green.mock.calls).toEqual([['<project-directory>']]);
       expect(chalk.magenta.mock.calls).toEqual([
         ['*'],
         ['change directory to your new project'],
@@ -102,27 +73,14 @@ describe('cli runs properly', () => {
         ['To run build for Web'],
       ]);
 
-      if (isWin) {
-        expect(execSync.mock.calls).toEqual([
-          [
-            'cd myFakeName && npx react-native-rename-next myFakeName && npm i',
-            {stdio: [0, 1, 2]},
-          ],
-        ]);
-      } else {
-        expect(execSync.mock.calls).toEqual([
-          ['cd myFakeName && git init'],
-          ['cd myFakeName && npx react-native-rename-next myFakeName'],
-          ['cd myFakeName && npm i', {stdio: [0, 1, 2]}],
-          ['cd myFakeName/ios && pod --version'],
-          ['cd myFakeName/ios && pod install'],
-        ]);
-      }
-
-      expect(fs.emptyDirSync.mock.calls).toEqual([['myFakeName']]);
-      expect(fs.ensureDirSync.mock.calls).toEqual([['myFakeName']]);
-      expect(copyFiles.mock.calls).toEqual([
-        [__dirname + (isWin ? '\\' : '/') + 'template', 'myFakeName'],
+      expect(execSync.mock.calls).toEqual([
+        [
+          'npx react-native init myFakeName --template react-native-template-react-native-web',
+          {stdio: [0, 1, 2]},
+        ],
+        ['yarnpkg --version', {stdio: 'ignore'}],
+        ['cd myFakeName && git init'],
+        ['yarnpkg --version', {stdio: 'ignore'}],
       ]);
     });
     done();

@@ -2,11 +2,11 @@
 
 const chalk = require('chalk');
 const commander = require('commander');
-const fs = require('fs-extra');
-const path = require('path');
+// const fs = require('fs-extra');
+// const path = require('path');
 const execSync = require('child_process').execSync;
 const packageJson = require('./package.json');
-const copyFiles = require('./copyFiles');
+// const copyFiles = require('./copyFiles');
 
 const nodeVersion = process.versions.node;
 const nodeVersionSplitted = nodeVersion.split('.');
@@ -24,23 +24,19 @@ if (nodeMajorVersion < 8) {
 }
 
 const printCyan = (text) => console.log(`      ${chalk.cyan(text)}`);
-const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
+// const printGreen = (text) => console.log(`      ${chalk.green(text)}`);
 
 let appName;
-let appBundleId;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
-  .arguments('<project-directory> [<bundle-id>]')
+  .arguments('<project-directory>')
   .option('-r, --router')
-  .usage(
-    `${chalk.green('<project-directory>')} [${chalk.green('<bundle-id>')}]`,
-  )
-  .action((name, bundleId) => {
+  .usage(`${chalk.green('<project-directory>')}`)
+  .action((name) => {
     appName = name;
-    appBundleId = bundleId;
   })
   .on('--help', () => {
-    console.log(`    Only ${chalk.green('<project-directory>')} is required.`);
+    console.log(` ${chalk.green('<project-directory>')} is required.`);
     console.log();
     console.log(
       `    If you have any problems, do not hesitate to file an issue:`,
@@ -54,114 +50,27 @@ const program = new commander.Command(packageJson.name)
 
 async function run() {
   if (appName) {
-    function installPods() {
-      // TODO add better testing for pods
-      if (process.platform === 'darwin') {
-        const iosFolderPath = `${appName}/ios`;
-        try {
-          if (!fs.existsSync(iosFolderPath)) {
-            return;
-          }
-
-          const hasPods = fs.existsSync(`${iosFolderPath}/Podfile`);
-
-          if (!hasPods) {
-            return;
-          }
-
-          try {
-            // Check if "pod" is available and usable. It happens that there are
-            // multiple versions of "pod" command and even though it's there, it exits
-            // with a failure
-            execSync(`cd ${iosFolderPath} && pod --version`);
-          } catch (e) {
-            // "pod" command outputs errors to stdout (at least some of them)
-            console.log(error.stderr || error.stdout);
-
-            throw new Error(
-              `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "gem install cocoapods --no-document && cd ./${appName}/ios && pod install".\nCocoaPods documentation: 
-              "https://cocoapods.org/"
-            `,
-            );
-          }
-
-          try {
-            printCyan(
-              '⏳ Installing CocoaPods dependencies (this may take a few minutes)...',
-            );
-            execSync(`cd ${iosFolderPath} && pod install`);
-          } catch (error) {
-            // "pod" command outputs errors to stdout (at least some of them)
-            console.log(error.stderr || error.stdout);
-
-            throw new Error(
-              `Failed to install CocoaPods dependencies for iOS project, which is required by this template.\nPlease try again manually: "cd ./${appName}/ios && pod install".\nCocoaPods documentation: 
-              "https://cocoapods.org/"
-            `,
-            );
-          }
-        } catch (error) {
-          throw error;
-        }
-      }
-    }
-
     printCyan(`⏳ Creating React Native Web App by the name of ${appName}`);
     console.log();
 
-    printCyan('⏳ Creating project folder...');
-    console.log();
-
-    // create folder appName and copy files
-    fs.ensureDirSync(appName);
-    fs.emptyDirSync(appName);
-
-    printCyan('⏳ Adding project files...');
-    console.log();
-
-    await copyFiles(path.resolve(__dirname, 'template'), appName);
-
-    if (program.router) {
-      printCyan('⏳ Adding react router files...');
-      console.log();
-      fs.removeSync(`${appName}/src/App.js`);
-      await copyFiles(
-        path.resolve(__dirname, 'react-router'),
-        path.resolve(appName, 'src'),
-      );
-    }
-
-    fs.renameSync(
-      path.resolve(appName, '.gitignore.txt'),
-      path.resolve(appName, '.gitignore'),
+    execSync(
+      `npx react-native init ${appName} --template react-native-template-react-native-web`,
+      {stdio: [0, 1, 2]},
     );
+
+    let isYarnAvailable;
+    try {
+      execSync('yarnpkg --version', {stdio: 'ignore'});
+      isYarnAvailable = true;
+    } catch (e) {
+      isYarnAvailable = false;
+    }
 
     try {
       execSync(`cd ${appName} && git init`);
     } catch (error) {}
 
-    // install deps
-    printCyan('⏳ Installing project dependencies...');
-    console.log();
-
-    const renameCommand = `cd ${appName} && npx react-native-rename-next ${appName}${
-      appBundleId ? ` -b ${appBundleId}` : ''
-    }`;
-
-    execSync(renameCommand);
-
-    const installCommand = `cd ${appName} && npm i${
-      program.router ? '&& npm i -S react-router-native react-router-dom' : ''
-    }`;
-    execSync(installCommand, {stdio: [0, 1, 2]});
-
-    installPods();
-
-    // print script commands with info links
-    printGreen('✅ Done! 😁👍 Your project is ready for development.');
-    console.log();
-
-    const packageManagerRunCommand = 'npm run';
+    const packageManagerRunCommand = isYarnAvailable ? 'yarn' : 'npm run';
     console.log(`
         ${chalk.magenta('*')} ${chalk.magenta(
       'change directory to your new project',
