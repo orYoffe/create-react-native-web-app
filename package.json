@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-app",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "React Native Web CLI",
   "main": "cli.js",
   "scripts": {
