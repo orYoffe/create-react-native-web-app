@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-app",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "description": "React Native Web CLI",
   "main": "cli.js",
   "scripts": {
@@ -44,7 +44,8 @@
   },
   "dependencies": {
     "chalk": "^3.0.0",
-    "commander": "^2.15.1"
+    "commander": "^2.15.1",
+    "react-native-template-react-native-web": "*"
   },
   "jest": {
     "testEnvironment": "node",
